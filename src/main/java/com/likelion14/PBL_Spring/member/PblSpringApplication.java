@@ -14,6 +14,14 @@ public class PblSpringApplication {
 		//Bean 가져오기 테스트
 		MemberService service = context.getBean(MemberService.class);
 		System.out.println("서비스 가져오기 성공: " + service);
+
+		// 2.등록된 Bean 목록 출력하기
+		System.out.println("=== 등록된 Bean 목록 ===");
+		
+		String[] beanNames = context.getBeanDefinitionNames();
+		for(String name : beanNames) {
+			System.out.println("Bean: " + name);
+		}
 	}
 
 }
