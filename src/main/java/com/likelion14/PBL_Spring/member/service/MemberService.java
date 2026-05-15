@@ -35,7 +35,7 @@ public class MemberService {
         Lion lion = new Lion(request.getName(), request.getMajor(), request.getGeneration(),
                 request.getPart(), request.getStudentId());
 
-        if(lion.equals(request.getName())){
+        if( searchByName(request.getName()) != null ){
             return null;
         }
         repository.save(lion);
@@ -46,7 +46,7 @@ public class MemberService {
         Staff staff = new Staff(request.getName(), request.getMajor(), request.getGeneration(),
                 request.getPart(), request.getPosition());
 
-        if(staff.equals(request.getName())){
+        if( searchByName(request.getName()) != null ){
             return null;
         }
         repository.save(staff);
