@@ -1,8 +1,9 @@
 package com.likelion14.PBL_Spring.member.domain.role;
 
 import com.likelion14.PBL_Spring.member.domain.policy.*;
+import com.likelion14.PBL_Spring.member.domain.role.Role;
 
-public class Lion extends Role{
+public class Lion extends Role {
     private String studentId;
 
     @Override

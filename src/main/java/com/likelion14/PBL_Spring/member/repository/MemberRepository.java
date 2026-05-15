@@ -1,7 +1,6 @@
 package com.likelion14.PBL_Spring.member.repository;
 
 import com.likelion14.PBL_Spring.member.domain.role.Role;
-
 import java.util.List;
 
 public interface MemberRepository {
@@ -9,4 +8,6 @@ public interface MemberRepository {
     Role findByName(String name);
     List<Role> findAll();
     boolean existsByName(String name);
+    void updateByName(String name, Role member);
+    boolean deleteMember(String name);
 }
