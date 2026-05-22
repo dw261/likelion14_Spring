@@ -7,22 +7,22 @@ import lombok.Setter;
 @Getter @Setter
 public class MemberResponse {
     private Long id;
+    private String roleName;
     private String name;
     private String major;
     private int generation;
     private String part;
-    private String roleName;
     private String studentId;
     private String position;
 
     public static MemberResponse from(Member member) {
         MemberResponse response = new MemberResponse();
         response.id = member.getId();
+        response.roleName = String.valueOf(member.getRoleType());
         response.name = member.getName();
         response.major = member.getMajor();
         response.generation = member.getGeneration();
         response.part = member.getPart();
-        response.roleName = String.valueOf(member.getRoleType());
         response.studentId = member.getStudentId();
         response.position = member.getPosition();
         return response;

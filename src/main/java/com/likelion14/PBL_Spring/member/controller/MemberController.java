@@ -84,7 +84,7 @@ public class MemberController {
         return ResponseEntity.ok(MemberResponse.from(updated));
     }
 
-    // DELETE /members/{name} - 멤버 삭제
+    // DELETE /members/{id} - 멤버 삭제
 //    @Operation(summary = "멤버 삭제")
     @DeleteMapping("/{id}")
     public ResponseEntity<Long> deleteMember(@PathVariable Long id){

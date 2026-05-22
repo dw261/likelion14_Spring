@@ -15,13 +15,13 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
+    private RoleType roleType;
+
     private String name;
     private String major;
     private String part;
     private int generation;
-
-    @Enumerated(EnumType.STRING)
-    private RoleType roleType;
 
     private String studentId;
     private String position;
@@ -29,11 +29,11 @@ public class Member {
     @Builder
     public Member(String name, String major, int generation, String part,
                   RoleType roleType, String studentId, String position) {
+        this.roleType = roleType;
         this.name = name;
         this.major = major;
         this.generation = generation;
         this.part = part;
-        this.roleType = roleType;
         this.studentId = studentId;
         this.position = position;
     }
