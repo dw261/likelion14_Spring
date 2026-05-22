@@ -1,13 +1,11 @@
 package com.likelion14.PBL_Spring.member.repository;
 
-import com.likelion14.PBL_Spring.member.domain.role.Role;
-import java.util.List;
+import com.likelion14.PBL_Spring.member.domain.Member;
+import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
 
-public interface MemberRepository {
-    void save(Role member);
-    Role findByName(String name);
-    List<Role> findAll();
+public interface MemberRepository extends JpaRepository<Member,Long> {
+    Optional<Member> findByName(String name);
     boolean existsByName(String name);
-    void updateByName(String name, Role member);
-    boolean deleteMember(String name);
+
 }

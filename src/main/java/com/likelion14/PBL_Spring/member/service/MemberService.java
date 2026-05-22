@@ -1,6 +1,7 @@
 package com.likelion14.PBL_Spring.member.service;
 
-import com.likelion14.PBL_Spring.member.domain.role.*;
+import com.likelion14.PBL_Spring.member.domain.Member;
+import com.likelion14.PBL_Spring.member.domain.RoleType;
 import com.likelion14.PBL_Spring.member.dto.*;
 import com.likelion14.PBL_Spring.member.repository.MemberRepository;
 import org.springframework.stereotype.Service;
@@ -17,65 +18,66 @@ public class MemberService {
     public MemberService(MemberRepository repository){
         this.repository = repository; }
 
-    public boolean register(Role member){
-        if(repository.existsByName(member.getName())){
-            return false;
-        }
-        repository.save(member);
-        return true;
+    public Member searchByName(String name){
+        return repository.findByName(name).orElse(null);
     }
 
-    public Role searchByName(String name){ return repository.findByName(name); }
-
-    public List<Role> getAllMembers() { return repository.findAll(); }
+    public List<Member> getAllMembers() {
+        return repository.findAll();
+    }
 
     public boolean isEmpty() { return repository.findAll().isEmpty(); }
 
-    public Role createLion (LionCreateRequest request){
-        Lion lion = new Lion(request.getName(), request.getMajor(), request.getGeneration(),
-                request.getPart(), request.getStudentId());
-
-        if( searchByName(request.getName()) != null ){
+    public Member createLion (LionCreateRequest request){
+        if(repository.existsByName(request.getName())) {
             return null;
         }
-        repository.save(lion);
-        return lion;
+        Member member = new Member(request.getName(), request.getMajor(), request.getGeneration(),
+                request.getPart(), RoleType.LION, request.getStudentId(), null );
+
+        return repository.save(member);
     }
 
-    public Role createStaff (StaffCreateRequest request){
-        Staff staff = new Staff(request.getName(), request.getMajor(), request.getGeneration(),
-                request.getPart(), request.getPosition());
-
-        if( searchByName(request.getName()) != null ){
+    public Member createStaff (StaffCreateRequest request){
+        if(repository.existsByName(request.getName())) {
             return null;
         }
-        repository.save(staff);
-        return staff;
+        Member member = new Member(request.getName(), request.getMajor(), request.getGeneration(),
+                request.getPart(), RoleType.STAFF, null, request.getPosition());
+
+        return repository.save(member);
     }
 
-    public Role updateLion (String name, LionUpdateRequest request){
-        if (searchByName(name) == null) {
+    public Member updateLion(Long id, LionUpdateRequest request) {
+        Member member = repository.findById(id).orElse(null);
+        if(member == null) {
             return null;
         }
-
-        Lion updated = new Lion(name, request.getMajor(), request.getGeneration(),
-                request.getPart(), request.getStudentId());
-        repository.updateByName(name, updated);
-        return updated;
+        member.updateInfo(request.getMajor(), request.getGeneration(), request.getPart());
+        member.updateStudentId(request.getStudentId());
+        return repository.save(member);
     }
 
-    public Role updateStaff (String name, StaffUpdateRequest request){
-        if (searchByName(name) == null) {
+    public Member updateStaff (Long id, StaffUpdateRequest request) {
+        Member member = repository.findById(id).orElse(null);
+        if(member == null) {
             return null;
         }
-
-        Staff updated = new Staff(name, request.getMajor(), request.getGeneration(),
-                request.getPart(), request.getPosition());
-        repository.updateByName(name, updated);
-        return updated;
+        member.updateInfo(request.getMajor(), request.getGeneration(), request.getPart());
+        member.updateStudentId(request.getPosition());
+        return repository.save(member);
     }
 
-    public boolean deleteMember(String name) {
-        return repository.deleteMember(name);
+    // ID로 조회
+    public Member findById(Long id){
+        return repository.findById(id).orElse(null);
+    }
+
+    public boolean deleteMember(Long id) {
+        if (!repository.existsById(id)) {
+            return false;
+        }
+        repository.deleteById(id);
+        return true;
     }
 }
