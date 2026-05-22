@@ -2,7 +2,12 @@ package com.likelion14.PBL_Spring.member.domain;
 
 import com.likelion14.PBL_Spring.member.dto.MemberResponse;
 import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
+@Getter
 @Entity
 public class Member {
 
@@ -21,10 +26,7 @@ public class Member {
     private String studentId;
     private String position;
 
-    protected Member() {
-
-    }
-
+    @Builder
     public Member(String name, String major, int generation, String part,
                   RoleType roleType, String studentId, String position) {
         this.name = name;
@@ -50,17 +52,4 @@ public class Member {
     public void updatePosition(String position){
         this.position = position;
     }
-
-    // Getter 지정
-    public Long getId() { return id; }
-    public String getName() { return name; }
-    public String getMajor() { return major; }
-    public int getGeneration() { return generation; }
-    public String getPart() { return part; }
-    public RoleType getRoleType() { return roleType; }
-    public String getStudentId() { return studentId; }
-    public String getPosition() { return position; }
-
-
-
 }

@@ -32,8 +32,15 @@ public class MemberService {
         if(repository.existsByName(request.getName())) {
             return null;
         }
-        Member member = new Member(request.getName(), request.getMajor(), request.getGeneration(),
-                request.getPart(), RoleType.LION, request.getStudentId(), null );
+        Member member = Member.builder()
+                .name(request.getName())
+                .major(request.getMajor())
+                .generation(request.getGeneration())
+                .part(request.getPart())
+                .roleType(RoleType.LION)
+                .studentId(request.getStudentId())
+                .position(null)
+                .build();
 
         return repository.save(member);
     }
