@@ -5,10 +5,12 @@ import com.likelion14.PBL_Spring.member.domain.RoleType;
 import com.likelion14.PBL_Spring.member.dto.*;
 import com.likelion14.PBL_Spring.member.repository.MemberRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class MemberService {
     //인터페이스에 의존 (구현체에 의존하지 않음)
     private final MemberRepository repository;
@@ -28,6 +30,7 @@ public class MemberService {
 
     public boolean isEmpty() { return repository.findAll().isEmpty(); }
 
+    @Transactional
     public Member createLion (LionCreateRequest request){
         if(repository.existsByName(request.getName())) {
             return null;
@@ -45,6 +48,7 @@ public class MemberService {
         return repository.save(member);
     }
 
+    @Transactional
     public Member createStaff (StaffCreateRequest request){
         if(repository.existsByName(request.getName())) {
             return null;
@@ -55,6 +59,7 @@ public class MemberService {
         return repository.save(member);
     }
 
+    @Transactional
     public Member updateLion(Long id, LionUpdateRequest request) {
         Member member = repository.findById(id).orElse(null);
         if(member == null) {
@@ -65,13 +70,14 @@ public class MemberService {
         return repository.save(member);
     }
 
+    @Transactional
     public Member updateStaff (Long id, StaffUpdateRequest request) {
         Member member = repository.findById(id).orElse(null);
         if(member == null) {
             return null;
         }
         member.updateInfo(request.getMajor(), request.getGeneration(), request.getPart());
-        member.updateStudentId(request.getPosition());
+        member.updatePosition(request.getPosition());
         return repository.save(member);
     }
 
@@ -80,6 +86,7 @@ public class MemberService {
         return repository.findById(id).orElse(null);
     }
 
+    @Transactional
     public boolean deleteMember(Long id) {
         if (!repository.existsById(id)) {
             return false;

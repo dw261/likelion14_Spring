@@ -1,10 +1,12 @@
 package com.likelion14.PBL_Spring.member.domain;
 
-import com.likelion14.PBL_Spring.member.dto.MemberResponse;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -25,6 +27,9 @@ public class Member {
 
     private String studentId;
     private String position;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Assignment> assignments = new ArrayList<>();
 
     @Builder
     public Member(String name, String major, int generation, String part,
